@@ -1,0 +1,396 @@
+ 1: 
+ List the number of customers in each country. Only include countries with more  than 10
+customers.
+
+mysql> select count(id) ,country 
+    -> from customer
+    -> group by country
+    -> having count(id) >10;
+Empty set (0.00 sec)
+
+mysql> select count(id) , country 
+    -> 
+    -> from customer
+    -> group by customer
+    -> having count(id) >5;
+ERROR 1054 (42S22): Unknown column 'customer' in 'group statement'
+mysql> select count(id) , country   from customer group by country  having count(id) >5;
++-----------+-----------+
+| count(id) | country   |
++-----------+-----------+
+|         7 | Austerila |
+|         7 | pakistan  |
++-----------+-----------+
+2 rows in set (0.00 sec)
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+2 : 
+2. List the number of customers in each country, except the USA, sorted high to low. Only include
+countries with 9 or more customers
+
+Asuumption  : "USA " = "PAKISTAN"
+			 9 MORE THEN 	= 3 OR MORE THEN
+mysql> select count(id),country
+    -> from customer
+    -> where country != "pakistan"
+    -> group by country
+    -> having count(id) >= 5
+    -> order by count(id) DESC;
++-----------+-----------+
+| count(id) | country   |
++-----------+-----------+
+|         7 | Austerila |
++-----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select count(id),country from customer where country != "pakistan" group by country having count(id) >= 3 order by count(id) DESC;
++-----------+-----------+
+| count(id) | country   |
++-----------+-----------+
+|         7 | Austerila |
+|         4 | America   |
++-----------+-----------+
+2 rows in set (0.00 sec)
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+3. List all CustomerId’s with average orders between $1000 and $1200.
+
+
+mysql> select avg(totalammount) ,firstName,LastName
+    -> from orders inner join customer on
+    -> customer.id = orders.customerid
+    -> group by firstName,LastName
+    -> having avg(totalammount) between 1000 and 2000;
++-------------------+-----------+----------+
+| avg(totalammount) | firstName | LastName |
++-------------------+-----------+----------+
+|         1500.0000 | Muhammad  | arslan   |
+|         1000.0000 | Muhammad  | iftikhar |
+|         2000.0000 | Muhammad  | Momina   |
+|         1800.0000 | Muhammad  | Nimra    |
+|         2000.0000 | Muhammad  | zain     |
++-------------------+-----------+----------+
+5 rows in set (0.00 sec)
+
+--------------------------------------------------------------------------------------------
+4 :
+List the total number of customers from each city in each country (Consider the fact that two
+cities in different countries might have the same name
+
+mysql> select count(id) ,city,country
+    -> from customer
+    -> group by city , country
+    -> ;
++-----------+-----------+-----------+
+| count(id) | city      | country   |
++-----------+-----------+-----------+
+|         1 | islamabad | India     |
+|         1 | jhelum    | America   |
+|         1 | jhelum    | Austerila |
+|         2 | jhelum    | pakistan  |
+|         3 | karach    | America   |
+|         3 | karach    | Austerila |
+|         3 | karach    | pakistan  |
+|         3 | Multan    | Austerila |
+|         1 | Multan    | Dubia     |
+|         2 | Multan    | pakistan  |
++-----------+-----------+-----------+
+10 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------
+
+5:
+List the sum of orders for each day in a particular week (e.g. sum of orders for each day (Monday
+to Friday) for the first week of December
+
+
+
+
+mysql> select sum(orderNumber) ,customerid
+    -> from orders
+    -> group by customerid;
++------------------+------------+
+| sum(orderNumber) | customerid |
++------------------+------------+
+|               10 |          1 |
+|               20 |          2 |
+|               30 |          3 |
+|               40 |          4 |
+|               50 |          5 |
+|               60 |          6 |
+|               70 |          7 |
++------------------+------------+
+7 rows in set (0.01 sec)
+-------------------------------------------------------------------------
+
+6 : 
+	List the number of orders placed by each customer.
+
+	mysql> select  orderNumber  from orders inner join customer on customer.id=orders.customerid;
++-------------+
+| orderNumber |
++-------------+
+| 10          |
+| 20          |
+| 30          |
+| 40          |
+| 50          |
+| 60          |
+| 70          |
++-------------+
+7 rows in set (0.00 sec)
+------------------------------------------------------------------------------
+
+7:
+List the CustomerId of the most valued customer.
+
+
+mysql> select max(customerid) from orders;
++-----------------+
+| max(customerid) |
++-----------------+
+|               7 |
++-----------------+
+1 row in set (0.00 sec)
+ 
+
+-------------------------------------/////////////////////////////////////////
+8 : 
+8. List the CustomerId of the least valued customer.
+
+
+mysql> select min(customerid) from orders;
++-----------------+
+| min(customerid) |
++-----------------+
+|               1 |
++-----------------+
+1 row in set (0.00 sec)
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+9 : 
+9. List the date on which the company had the best sale.
+
+mysql> select orderdate
+    -> from orders
+    -> where totalammount= (select max(totalammount) from orders);
++------------+
+| orderdate  |
++------------+
+| 2020-12-12 |
++------------+
+1 row in set (0.00 sec)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Questin 2::
+
+1;
+List the number of employees, total salary paid to employees that work in each department.
+
+mysql> select count(emp_id) as Employee , sum(salary) as Total_salary from employee group by dept_id;
++----------+--------------+
+| Employee | Total_salary |
++----------+--------------+
+|        6 |        51600 |
+|        6 |        24900 |
+|        4 |        30600 |
+|        5 |        28800 |
+|        3 |        58000 |
++----------+--------------+
+5 rows in set (0.00 sec)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2:
+List the number of employees working in each department under each manager.
+
+mysql> select count(emp_id), manager_id from employee group by manager_id;
++---------------+------------+
+| count(emp_id) | manager_id |
++---------------+------------+
+|             1 | 0          |
+|             7 | 100        |
+|             1 | 101        |
+|             1 | 102        |
+|             4 | 103        |
+|             5 | 108        |
+|             5 | 114        |
++---------------+------------+
+7 rows in set (0.00 sec)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3 :
+3. List the average salaries paid to each designation (job_id)
+
+mysql> select avg(Salary) as Average_salary , job_id 
+    -> from employee
+    -> group by job_id;
++----------------+------------+
+| Average_salary | job_id     |
++----------------+------------+
+|     24000.0000 | AD_PRES    |
+|     17000.0000 | AD_VP      |
+|      7920.0000 | FI_ACCOUNT |
+|     12000.0000 | FI_MGR     |
+|      5760.0000 | IT_PROG    |
+|      2780.0000 | PU_CLERK   |
+|     11000.0000 | PU_MAN     |
+|      7650.0000 | ST_MAN     |
++----------------+------------+
+8 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------------- ---------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. List the manager under whom the most number of employees are working.
+
+mysql> select count(emp_id) employees ,manager_id
+    -> from employee 
+    -> group by manager_id 
+    -> having employees = 
+    -> (Select max(emp) from (select count(emp_id) emp , manager_id 
+    -> from employee group by 
+    -> manager_id) as data);
++-----------+------------+
+| employees | manager_id |
++-----------+------------+
+|         7 | 100        |
++-----------+------------+
+1 row in set (0.01 sec)
+
+--------------------------------------------------------------------------------- ---------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5 :
+List the average salaries paid to each designation in each department.
+
+mysql> select avg(salary) salary , job_id as designation
+    -> ,dept_id as department
+    -> from employee
+    -> group by dept_id , job_id;
++------------+-------------+------------+
+| salary     | designation | department |
++------------+-------------+------------+
+|  7920.0000 | FI_ACCOUNT  | 100        |
+| 12000.0000 | FI_MGR      | 100        |
+|  2780.0000 | PU_CLERK    | 30         |
+| 11000.0000 | PU_MAN      | 30         |
+|  7650.0000 | ST_MAN      | 50         |
+|  5760.0000 | IT_PROG     | 60         |
+| 24000.0000 | AD_PRES     | 90         |
+| 17000.0000 | AD_VP       | 90         |
++------------+-------------+------------+
+--------------------------------------------------------------------------------- ---------------------------------------------------------------------------------
+6. List the number of employees working under each manager in ascending order.
+
+
+mysql> select count(emp_id) employees ,manager_id Manager
+    -> from employee
+    -> group by manager_id 
+    -> order by manager_id;
++-----------+---------+
+| employees | Manager |
++-----------+---------+
+|         1 | 0       |
+|         7 | 100     |
+|         1 | 101     |
+|         1 | 102     |
+|         4 | 103     |
+|         5 | 108     |
+|         5 | 114     |
++-----------+---------+
+7 rows in set (0.00 sec)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+7 :
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+7. List the number of managers in each department.
+
+mysql> select count(manager_id) Manager ,dept_id department
+    -> from employee 
+    -> group by dept_id
+    -> ;
++---------+------------+
+| Manager | department |
++---------+------------+
+|       6 | 100        |
+|       6 | 30         |
+|       4 | 50         |
+|       5 | 60         |
+|       3 | 90         |
++---------+------------+
+5 rows in set (0.00 sec)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+8 : 
+List the departments that has more than 3 employee
+
+mysql> select count(emp_id) employer , dept_id department
+    -> from employee
+    -> group by dept_id
+    -> having employer >3;
++----------+------------+
+| employer | department |
++----------+------------+
+|        6 | 100        |
+|        6 | 30         |
+|        4 | 50         |
+|        5 | 60         |
++----------+------------+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9. List the department that has the most number of employees.
+
+mysql> select count(emp_id) employees ,dept_id
+    -> from employee 
+    -> group by dept_id
+    -> having employees = 
+    -> (Select max(emp) from (select count(emp_id) emp , dept_id 
+    -> from employee group by 
+    -> dept_id) as data);
++-----------+---------+
+| employees | dept_id |
++-----------+---------+
+|         6 | 100     |
+|         6 | 30      |
++-----------+---------+
+2 rows in set (0.00 sec)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+10. List the department that the least number of employees
+
+
+mysql> select count(emp_id) employees ,dept_id
+    -> from employee 
+    -> group by dept_id
+    -> having employees = 
+    -> (Select min(emp) from (select count(emp_id) emp , dept_id 
+    -> from employee group by 
+    -> dept_id) as data);
++-----------+---------+
+| employees | dept_id |
++-----------+---------+
+|         3 | 90      |
++-----------+---------+
+1 row in set (0.00 sec)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+

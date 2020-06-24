@@ -1,0 +1,90 @@
+
+//create database
+
+use customers;
+
+//create user
+
+db.createUser(
+{
+	user: "root",
+	pwd: "1234",
+	roles:["readWrite","dbAdmin"]
+
+}
+)
+
+//create collection (tables in sql)
+
+db.createCollection('customer_info');
+db.createCollection('collection_1);
+
+show collections;
+
+
+//insert documents (record in sql)
+
+db.customer_info.insert(
+{
+	
+first_name: "Muhammad",
+last_name: "Ali",
+}
+}
+);
+
+//multiple documents will be passed as array
+
+db.customer_info.insert(
+[
+{
+	
+first_name: "Rida",
+last_name: "fatima",
+
+},
+
+{
+	
+first_name: "Ayesha",
+last_name: "Aziz",
+
+},
+{
+	
+first_name: "Ammar",
+last_name: "Abid",
+
+}
+]
+);
+
+db.customer_info.find();
+db.customer_info.find().pretty();
+
+//add feild
+db.customer_info.update({first_name: "Rida"},{last_name: "fatime", gender:"female"});
+
+db.customer_info.update({first_name: "Ammar"},{$set:{ gender:"male"}});
+
+//increment
+db.customer_info.update({first_name: "Ammar"},{$inc:{age:2}});
+
+
+
+//add if not exists
+db.customer_info.update({first_name: "abc"},{first_name:"abc",last_name:"xyz"},{upsert: true});
+
+
+//Rename
+db.customer_info.update({first_name: "Ammar"},{$set:{ cell_no:"022334455"}});
+
+db.customer_info.update({first_name: "Ammar"},{$rename:{ "cell_no":"contact"}});
+
+//remove
+
+//remove a feild
+db.customer_info.update({first_name: "Ammar"},{$unset:{age:1}});
+
+//remove a collection(record)
+db.customer_info.remove({first_name: "Rida"});

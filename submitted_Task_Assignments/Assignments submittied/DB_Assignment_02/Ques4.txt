@@ -1,0 +1,106 @@
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1 :
+Show order id, customer name and order date for those orders in which Flagyl Syrup was sold.
+
+mysql> select orders.order_id,orders.customer_name,orders.order_date
+    -> from orders
+    -> inner join order_detail on orders.order_id=order_detail.order_id
+    -> inner join products on products.p_id=order_detail.p_id
+    -> where p_name ="Flagyl"
+    -> ;
++----------+---------------+------------+
+| order_id | customer_name | order_date |
++----------+---------------+------------+
+|       24 | Shezan khan   | 2014-12-05 |
+|       26 | tariq Khan    | 2015-06-23 |
+|       22 | waleed ali    | 2014-11-25 |
++----------+---------------+------------+
+3 rows in set (0.00 sec)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.
+ Show complete order details (with information from products, orders and order_detail table)
+for the Customer Javed Iqbal.
+
+mysql> select *
+    -> from orders
+    -> inner join order_detail on orders.order_id=order_detail.order_id
+    -> inner join products on  order_detail.p_id =products.p_id 
+    -> where orders.customer_name="Javed iqbal"
+    -> 
+    -> ;
++----------+---------------+------------+------+----------+----------------+------+---------+-------+------------+---------+------+
+| order_id | customer_name | order_date | p_id | order_id | unit_purchased | p_id | p_name  | units | unit_price | type    | s_id |
++----------+---------------+------------+------+----------+----------------+------+---------+-------+------------+---------+------+
+|       25 | Javed iqbal   | 2015-01-15 | 1005 |       25 |              5 | 1005 | ponston |   100 |         15 | tablets |  312 |
++----------+---------------+------------+------+----------+----------------+------+---------+-------+------------+---------+------+
+1 row in set (0.00 sec)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. Show the number of products for the supplier named Muneer Brothers.
+
+mysql> select count(p_id) from 
+    -> supplier
+    -> inner join products on products.s_id= supplier.s_id
+    -> group by s_name
+    -> having supplier.s_name="Munir Brother"
+    -> ;
++-------------+
+| count(p_id) |
++-------------+
+|           1 |
++-------------+
+1 row in set (0.00 sec)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+4. Delete the Avil syrup product from the product table.
+mysql> delete from products
+    -> where p_name="Avil";
+Query OK, 2 rows affected (0.05 sec)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+5. Show products along with suppliers names for those suppliers that are in Peshawar.
+mysql> select products.p_name Product_Name , supplier.s_name as Supplier_Name
+    -> from products 
+    -> inner join supplier on products.s_id= supplier.s_id
+    -> where city= "Peshawar";
++--------------+-------------------------+
+| Product_Name | Supplier_Name           |
++--------------+-------------------------+
+| ponston      | Aliance Pharmacetucial  |
+| Brufen       | Ferozsons Laborities    |
+| Flagyl       | Ferozsons Laborities    |
+| Flagyl       | Ferozsons Laborities    |
++--------------+-------------------------+
+4 rows in set (0.00 sec)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+6 : 
+6. Show the number of products Sanofi Aventis are supplying.
+
+mysql> select count(products.p_id)
+    -> from products
+    -> inner join supplier on products.s_id=products.s_id
+    -> where supplier.s_name = "Sanofi Aventis"
+    -> ;
++----------------------+
+| count(products.p_id) |
++----------------------+
+|                    5 |
++----------------------+

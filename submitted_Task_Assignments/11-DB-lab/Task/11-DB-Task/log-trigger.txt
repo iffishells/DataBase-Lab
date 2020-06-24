@@ -1,0 +1,250 @@
+mysql> create table users(
+    -> users_id int primary key,
+    -> username varchar(30) Not NULL,
+    -> password varchar(30) Not NULL,
+    -> email varchar(40) Not NULL
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> 
+mysql> create table summary(
+    -> id int Not NULL primary key,
+    -> total_users int Not NULL,
+    -> Yahoo int Not NULL,
+    -> Hotmail int Not NULL,
+    -> Gmail int Not NULL
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> use person2
+Database changed
+mysql> create table users(
+    -> users_id int primary key,
+    -> username varchar(30) Not NULL,
+    -> password varchar(30) Not NULL,
+    -> email varchar(40) Not NULL
+    -> );
+Query OK, 0 rows affected (0.26 sec)
+
+mysql> 
+mysql> create table summary(
+    -> id int Not NULL primary key,
+    -> total_users int Not NULL,
+    -> Yahoo int Not NULL,
+    -> Hotmail int Not NULL,
+    -> Gmail int Not NULL
+    -> );
+Query OK, 0 rows affected (0.26 sec)
+
+mysql> delimiter $$
+mysql>  create procedure insertion_User_Data( IN users_id INT,username varchar(30) ,password varchar(30) ,email varchar(30) )
+    ->  begin
+    ->  insert into users
+    -> values(users_id,username,password,email);
+    ->  END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql>  delimiter ;
+mysql> delimiter $$
+mysql> 
+mysql>   create procedure insertion_summary( IN id INT,total_users int ,Yahoo int ,Hotmail int ,Gmail int )
+    ->  begin
+    ->  insert into summary
+    -> values(id,total_users,Yahoo,Hotmail,Gmail);
+    ->  END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql>  delimiter ;
+mysql> delimiter $$
+mysql> create procedure user_count( OUT count_users int , out gmail_users int, out yahoo_users int ,out Hotmail_users int)
+    -> begin
+    -> 
+    -> select count(users_id) into count_users from users;
+    -> 
+    -> select count(users_id) into gmail_users from users
+    -> where email like "%gmail.com";
+    -> 
+    -> select count(users_id) into yahoo_users from users
+    -> where email like "%yahoo.com";
+    -> 
+    -> select count(users_id) into Hotmail_users from users
+    -> where email like "%Hotmail.com";
+    -> 
+    -> end $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> delimiter ;
+mysql> delimiter $$
+mysql> 
+mysql> create trigger update_summary_insert 
+    -> after insert on users
+    -> 
+    -> for each row
+    -> begin
+    -> declare count_users int;
+    -> declare yahoo_users int;
+    -> declare gmail_users int;
+    -> declare Hotmail_users int;
+    -> 
+    -> CALL user_count(count_users ,gmail_users,yahoo_users,Hotmail_users);
+    -> update summary
+    -> set total_users=count_users,
+    -> Hotmail = Hotmail_users,
+    -> gmail = gmail_users,
+    -> yahoo = yahoo_users
+    -> 
+    -> limit 1;
+    -> 
+    -> END$$
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> 
+mysql> delimiter ;
+mysql> delimiter $$
+mysql> 
+mysql> create trigger update_summary_update 
+    -> after update on users
+    -> 
+    -> for each row
+    -> begin
+    -> declare count_users int;
+    -> declare yahoo_users int;
+    -> declare gmail_users int;
+    -> declare Hotmail_users int;
+    -> 
+    -> CALL user_count(count_users ,gmail_users,yahoo_users,Hotmail_users);
+    -> update summary
+    -> set total_users=count_users,
+    -> Hotmail = Hotmail_users,
+    -> gmail = gmail_users,
+    -> yahoo = yahoo_users
+    -> 
+    -> limit 1;
+    -> 
+    -> END$$
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> 
+mysql> delimiter ;
+mysql> delimiter $$
+mysql> 
+mysql> create trigger update_summary_delete 
+    -> after delete on users
+    -> 
+    -> for each row
+    -> begin
+    -> declare count_users int;
+    -> declare yahoo_users int;
+    -> declare gmail_users int;
+    -> declare Hotmail_users int;
+    -> 
+    -> CALL user_count(count_users ,gmail_users,yahoo_users,Hotmail_users);
+    -> update summary
+    -> set total_users=count_users,
+    -> Hotmail = Hotmail_users,
+    -> gmail = gmail_users,
+    -> yahoo = yahoo_users
+    -> 
+    -> limit 1;
+    -> 
+    -> END$$
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> 
+mysql> delimiter ;
+mysql> select * from users;
+Empty set (0.00 sec)
+
+mysql> CALL insertion_User_Data(1,"ift123","ift321","ift123@yahoo.com");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from users;
++----------+----------+----------+------------------+
+| users_id | username | password | email            |
++----------+----------+----------+------------------+
+|        1 | ift123   | ift321   | ift123@yahoo.com |
++----------+----------+----------+------------------+
+1 row in set (0.00 sec)
+
+mysql> selec * from summary;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selec * from summary' at line 1
+mysql> select * from summary;
+Empty set (0.00 sec)
+
+mysql> truncate table users;
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> ALL insertion_User_Data(1,"ift123","ift321","ift123@yahoo.com");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ALL insertion_User_Data(1,"ift123","ift321","ift123@yahoo.com")' at line 1
+mysql>  CALL insertion_User_Data(1,"ift123","ift321","ift123@yahoo.com");
+Query OK, 1 row affected (0.05 sec)
+
+mysql>  CALL insertion_User_Data(2,"zain123","zain321","zain789@Gmail.com");
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select * from users;
++----------+----------+----------+-------------------+
+| users_id | username | password | email             |
++----------+----------+----------+-------------------+
+|        1 | ift123   | ift321   | ift123@yahoo.com  |
+|        2 | zain123  | zain321  | zain789@Gmail.com |
++----------+----------+----------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql>  CALL insertion_summary(1,2,1,0,1);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from summary;
++----+-------------+-------+---------+-------+
+| id | total_users | Yahoo | Hotmail | Gmail |
++----+-------------+-------+---------+-------+
+|  1 |           2 |     1 |       0 |     1 |
++----+-------------+-------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql>  CALL insertion_User_Data(3,"Ali123","Ali321","Ali123@Hotmail.com");
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from summary;
++----+-------------+-------+---------+-------+
+| id | total_users | Yahoo | Hotmail | Gmail |
++----+-------------+-------+---------+-------+
+|  1 |           3 |     1 |       1 |     1 |
++----+-------------+-------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql>  CALL insertion_User_Data(4,"ammar123","ammaar321","ammar789@Hotmail.com");
+Query OK, 1 row affected (0.09 sec)
+
+mysql>  CALL insertion_User_Data(5,"iftikhar123","iftikhar321","iftikhar123@yahoo.com");
+Query OK, 1 row affected (0.07 sec)
+
+mysql>  CALL insertion_User_Data(6,"Sana123","Sana321","sana789@Gmail.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  CALL insertion_User_Data(7,"khan123","khan321","khan789@Gmail.com");
+Query OK, 1 row affected (0.04 sec)
+
+mysql>  CALL insertion_User_Data(8,"momina123","momina321","momina789@Gmail.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  CALL insertion_User_Data(9,"asad123","asad321","asad789@Gmail.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  CALL insertion_User_Data(10,"aimen123","aimen321","aimen789@Gmail.com");
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from summary;
++----+-------------+-------+---------+-------+
+| id | total_users | Yahoo | Hotmail | Gmail |
++----+-------------+-------+---------+-------+
+|  1 |          10 |     2 |       2 |     6 |
++----+-------------+-------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> ^C
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> exit

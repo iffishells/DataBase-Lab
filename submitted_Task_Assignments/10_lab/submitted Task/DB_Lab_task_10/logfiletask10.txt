@@ -1,0 +1,217 @@
+mysql> drop database if EXISTS person;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> 
+mysql> create database person;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> create table users(
+    -> users_id int primary key,
+    -> username varchar(30) Not NULL,
+    -> password varchar(30) Not NULL,
+    -> email varchar(40) Not NULL
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> 
+mysql> create table summary(
+    -> id int Not NULL primary key,
+    -> total_users int Not NULL,
+    -> Yahoo int Not NULL,
+    -> Hotmail int Not NULL,
+    -> Gmail int Not NULL
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> use person
+Database changed
+mysql> delimiter $$
+mysql>  create procedure insertion_summary( IN id INT,total_users int ,Yahoo int ,Hotmail int , Gmail int)
+    ->  begin
+    ->  insert into summary
+    -> values(id,total_users,Yahoo,Hotmail,Gmail);
+    ->  END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> CALL insertion_summary(1,2,1,0,1);
+ERROR 1146 (42S02): Table 'person.summary' doesn't exist
+mysql> CALL insertion_summary(2,3,1,1,1);
+ERROR 1146 (42S02): Table 'person.summary' doesn't exist
+mysql> CALL insertion_summary(3,4,2,2,0);
+ERROR 1146 (42S02): Table 'person.summary' doesn't exist
+mysql> CALL insertion_summary(4,5,1,1,3);
+ERROR 1146 (42S02): Table 'person.summary' doesn't exist
+mysql> CALL insertion_summary(5,6,2,2,2);
+ERROR 1146 (42S02): Table 'person.summary' doesn't exist
+mysql> CALL insertion_summary(6,15,5,5,5);
+ERROR 1146 (42S02): Table 'person.summary' doesn't exist
+mysql> delimiter ; 
+mysql> create table users(
+    -> users_id int primary key,
+    -> username varchar(30) Not NULL,
+    -> password varchar(30) Not NULL,
+    -> email varchar(40) Not NULL
+    -> );
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> 
+mysql> create table summary(
+    -> id int Not NULL primary key,
+    -> total_users int Not NULL,
+    -> Yahoo int Not NULL,
+    -> Hotmail int Not NULL,
+    -> Gmail int Not NULL
+    -> );
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> delimiter $$
+mysql>  create procedure insertion_summary( IN id INT,total_users int ,Yahoo int ,Hotmail int , Gmail int)
+    ->  begin
+    ->  insert into summary
+    -> values(id,total_users,Yahoo,Hotmail,Gmail);
+    ->  END $$
+ERROR 1304 (42000): PROCEDURE insertion_summary already exists
+mysql> delimiter ;
+mysql> CALL insertion_summary(1,2,1,0,1);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> CALL insertion_summary(2,3,1,1,1);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> CALL insertion_summary(3,4,2,2,0);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> CALL insertion_summary(4,5,1,1,3);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> CALL insertion_summary(5,6,2,2,2);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> CALL insertion_summary(6,15,5,5,5);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> delimiter ; 
+mysql> delimiter $$
+mysql>  create procedure insertion_User_Data( IN users_id INT,username varchar(30) ,password varchar(30) ,email varchar(30) )
+    ->  begin
+    ->  insert into users
+    -> values(users_id,username,password,email);
+    ->  END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql>  delimiter ;
+mysql> 
+mysql>  CALL insertion_User_Data(1,"abc123","def321","abc123@yahoo.com");
+Query OK, 1 row affected (0.06 sec)
+
+mysql>  CALL insertion_User_Data(2,"xyz123","vbn321","xyz789@Gmail.com");
+Query OK, 1 row affected (0.04 sec)
+
+mysql>  CALL insertion_User_Data(3,"gef123","def321","gef123@Hotmail.com");
+Query OK, 1 row affected (0.06 sec)
+
+mysql>  CALL insertion_User_Data(4,"mno123","vbn321","mno789@Hotmail.com");
+Query OK, 1 row affected (0.07 sec)
+
+mysql>  CALL insertion_User_Data(5,"pqr123","def321","pwr123@yahoo.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  CALL insertion_User_Data(6,"pwr123","vbn321","pwr789@Gmail.com");
+Query OK, 1 row affected (0.04 sec)
+
+mysql>  delimiter ;
+mysql>  
+mysql>  delimiter $$
+mysql> create procedure AVG_yahoo()
+    -> begin
+    -> select avg(Yahoo) from summary;
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> 
+mysql> call AVG_yahoo();
++------------+
+| avg(Yahoo) |
++------------+
+|     2.0000 |
++------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> delimiter $$
+mysql> create procedure Min_Gamail()
+    -> begin
+    -> select min(Gmail) from summary;
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> 
+mysql> call Min_Gamail();
++------------+
+| min(Gmail) |
++------------+
+|          0 |
++------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>  delimiter $$
+mysql> create procedure Max_Hotmail()
+    -> begin
+    -> select max(Hotmail) from summary;
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> 
+mysql> call Max_Hotmail();
++--------------+
+| max(Hotmail) |
++--------------+
+|            5 |
++--------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter $$
+mysql> create procedure update_total_user()
+    -> begin
+    -> update summary
+    -> set total_users=1
+    -> where Yahoo <= Hotmail;
+    -> 
+    -> 
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> delimiter ;
+mysql> call update_total_user();
+Query OK, 5 rows affected (0.06 sec)
+
+mysql> select * from summary
+    -> ;
++----+-------------+-------+---------+-------+
+| id | total_users | Yahoo | Hotmail | Gmail |
++----+-------------+-------+---------+-------+
+|  1 |           2 |     1 |       0 |     1 |
+|  2 |           1 |     1 |       1 |     1 |
+|  3 |           1 |     2 |       2 |     0 |
+|  4 |           1 |     1 |       1 |     3 |
+|  5 |           1 |     2 |       2 |     2 |
+|  6 |           1 |     5 |       5 |     5 |
++----+-------------+-------+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> commit
+    -> ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> exit

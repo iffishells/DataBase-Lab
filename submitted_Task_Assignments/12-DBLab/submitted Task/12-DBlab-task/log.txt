@@ -1,0 +1,172 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| ACNES              |
+| Quest_04           |
+| Quest_05           |
+| Quest_1            |
+| Quest_2            |
+| Restaurants        |
+| THEMEPARK          |
+| Themes_park        |
+| employee           |
+| employees          |
+| hr                 |
+| info               |
+| mysql              |
+| performance_schema |
+| person             |
+| person2            |
+| pharma             |
+| phpmyadmin         |
+| pract              |
+| register.sql       |
+| sales_co           |
+| shop               |
+| sys                |
+| test               |
+| themes_park        |
+| uni                |
+| university         |
++--------------------+
+28 rows in set (0.00 sec)
+
+mysql> create database indexes;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> create table users(
+    -> users_id int primary key,
+    -> username varchar(30) Not NULL,
+    -> password varchar(30) Not NULL,
+    -> email varchar(40) Not NULL
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> 
+mysql> create table summary(
+    -> id int Not NULL primary key,
+    -> total_users int Not NULL,
+    -> Yahoo int Not NULL,
+    -> Hotmail int Not NULL,
+    -> Gmail int Not NULL
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> use indexes;
+Database changed
+mysql> create table users(
+    -> users_id int primary key,
+    -> username varchar(30) Not NULL,
+    -> password varchar(30) Not NULL,
+    -> email varchar(40) Not NULL
+    -> );
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> 
+mysql> create table summary(
+    -> id int Not NULL primary key,
+    -> total_users int Not NULL,
+    -> Yahoo int Not NULL,
+    -> Hotmail int Not NULL,
+    -> Gmail int Not NULL
+    -> );
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> delimiter $$
+mysql>  create procedure insertion_User_Data( IN users_id INT,username varchar(30) ,password varchar(30) ,email varchar(30) )
+    ->  begin
+    ->  insert into users
+    -> values(users_id,username,password,email);
+    ->  END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql>  delimiter ;
+mysql>  CALL insertion_User_Data(1,"ift123","ift321","ift123@yahoo.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  CALL insertion_User_Data(2,"zain123","zain321","zain789@Gmail.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  CALL insertion_User_Data(3,"Ali123","Ali321","Ali123@Hotmail.com");
+Query OK, 1 row affected (0.07 sec)
+
+mysql>  CALL insertion_User_Data(4,"ammar123","ammaar321","ammar789@Hotmail.com");
+Query OK, 1 row affected (0.07 sec)
+
+mysql>  CALL insertion_User_Data(5,"iftikhar123","iftikhar321","iftikhar123@yahoo.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  CALL insertion_User_Data(6,"Sana123","Sana321","sana789@Gmail.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  CALL insertion_User_Data(7,"khan123","khan321","khan789@Gmail.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  CALL insertion_User_Data(8,"momina123","momina321","momina789@Gmail.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  CALL insertion_User_Data(9,"asad123","asad321","asad789@Gmail.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  CALL insertion_User_Data(10,"aimen123","aimen321","aimen789@Gmail.com");
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  delimiter ;
+mysql> delimiter $$
+mysql> 
+mysql>   create procedure insertion_summary( IN id INT,total_users int ,Yahoo int ,Hotmail int ,Gmail int )
+    ->  begin
+    ->  insert into summary
+    -> values(id,total_users,Yahoo,Hotmail,Gmail);
+    ->  END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql>  delimiter ;
+mysql>  CALL insertion_summary(1,10,2,2,6);
+Query OK, 1 row affected (0.06 sec)
+
+mysql>  delimiter ;
+mysql>   create index index_email
+    ->  on users(email);
+Query OK, 0 rows affected (0.30 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create index index_composite_user_tables_username_password
+    ->  on users (username,password);
+Query OK, 0 rows affected (0.29 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> show index from users;
++-------+------------+-----------------------------------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Table | Non_unique | Key_name                                      | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
++-------+------------+-----------------------------------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| users |          0 | PRIMARY                                       |            1 | users_id    | A         |          10 |     NULL | NULL   |      | BTREE      |         |               |
+| users |          1 | index_email                                   |            1 | email       | A         |          10 |     NULL | NULL   |      | BTREE      |         |               |
+| users |          1 | index_composite_user_tables_username_password |            1 | username    | A         |          10 |     NULL | NULL   |      | BTREE      |         |               |
+| users |          1 | index_composite_user_tables_username_password |            2 | password    | A         |          10 |     NULL | NULL   |      | BTREE      |         |               |
++-------+------------+-----------------------------------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> commit
+    -> ;
+Query OK, 0 rows affected (0.00 sec)
+////
+
+-- what is implicit index and unique index
+
+	-- 	A unique index ensures the index key columns do not contain any duplicate values.
+	-- 	Unique does not allow duplicate values.
+
+	-- 	Implicit indexes are indexes that are automatically created by the database server when an object is created. 
+	-- 	Indexes are automatically created for primary key constraints and unique constraints.
+
+
+
+
+
+
+
+

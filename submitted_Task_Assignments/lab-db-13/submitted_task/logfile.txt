@@ -1,0 +1,452 @@
+mysql> show tables;
++-----------------------+
+| Tables_in_themes_park |
++-----------------------+
+| ATTRACTION            |
+| DETAIL                |
+| EMPLOYEE              |
+| EMP_details           |
+| HOURS                 |
+| SALES                 |
+| THEMEPARK             |
+| TICKET                |
++-----------------------+
+8 rows in set (0.00 sec)
+
+mysql> select concat(EMP_FNAME," ",EMP_LNAME) , EMP_DOB AS DATE_OF_BIRTHDAY
+    -> FROM EMPLOYEE
+    -> WHERE   DAYOFMONTH(EMP_DOB) = 14;
++---------------------------------+------------------+
+| concat(EMP_FNAME," ",EMP_LNAME) | DATE_OF_BIRTHDAY |
++---------------------------------+------------------+
+| Arif Arshad                     | 1969-11-14       |
+| Mirrelle Namowa                 | 1990-03-14       |
++---------------------------------+------------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> select ROUND(ABS(DATEDIFF(EMP_DOB , "2008-01-01")/365),0) AS age_of_employer
+    -> FROM EMPLOYEE;
++-----------------+
+| age_of_employer |
++-----------------+
+|              30 |
+|              38 |
+|              33 |
+|              27 |
+|              18 |
+|              40 |
++-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select CONCAT( SUBSTR(EMP_PHONE,1,3),  SUBSTR(LOWER(EMP_LNAME),1,2)) AS USER_PASSWORD
+    -> from EMPLOYEE;
++---------------+
+| USER_PASSWORD |
++---------------+
+| 324ri         |
+| 675ar         |
+| 898ro         |
+| 504de         |
+| 890na         |
+| 324if         |
++---------------+
+6 rows in set (0.00 sec)
+
+mysql>  select concat( DATE_FORMAT(LAST_DAY(SLAE_DATE), '%D' '%M' "%Y" )) as Date_,  PARK_NAME 
+    -> FROM
+    -> SALES,THEMEPARK;
++-------------+---------------+
+| Date_       | PARK_NAME     |
++-------------+---------------+
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
+| 31stMay2007 | FairyLand     |
+| 31stMay2007 | Efling        |
+| 31stMay2007 | AdventurePort |
+| 31stMay2007 | Labyrinthe    |
+| 31stMay2007 | MiniLand      |
+| 31stMay2007 | PleasureLand  |
+| 31stMay2007 | GoldTown      |
++-------------+---------------+
+133 rows in set (0.00 sec)
+
+mysql> select distinct(DATE_FORMAT(SLAE_DATE , '%a %d %c  %y'))
+    -> from SALES;
++-------------------------------------------+
+| (DATE_FORMAT(SLAE_DATE , '%a %d %c  %y')) |
++-------------------------------------------+
+| Fri 18 5  07                              |
++-------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> set autocommit= 0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from TICKET;
++-----------+--------------+-------------+-----------+
+| TICKET_NO | TICKET_PRICE | TICKET_TYPE | PARK_CODE |
++-----------+--------------+-------------+-----------+
+|      1234 |        25.00 | senior      | UK3452    |
+|     11001 |        24.99 | Adult       | SP4533    |
+|     11002 |        14.99 | Child       | SP4533    |
+|     11003 |        10.99 | Senior      | SP4533    |
+|     13001 |        18.99 | Child       | FR1001    |
+|     13002 |        34.99 | Adult       | FR1001    |
+|     13003 |        20.99 | Senior      | FR1001    |
+|     44621 |        65.00 | ADMIN       | UK3452    |
+|     65674 |        90.00 | ADMIN       | UK3452    |
+|     67832 |        18.56 | Child       | ZA1342    |
+|     67833 |        28.67 | Adult       | ZA1342    |
+|     67855 |        12.12 | Senior      | ZA1342    |
+|     88567 |        22.50 | Child       | UK3452    |
+|     89720 |        10.99 | Senior      | UK3452    |
++-----------+--------------+-------------+-----------+
+14 rows in set (0.00 sec)
+
+mysql> 
+mysql> INSERT INTO TICKET VALUES(1235,30,'SENIOR','UK3452');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO TICKET VALUES(8970, 90 ,'JUNIOR' , 'UK3452');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> SELECT * FROM TICKET;
++-----------+--------------+-------------+-----------+
+| TICKET_NO | TICKET_PRICE | TICKET_TYPE | PARK_CODE |
++-----------+--------------+-------------+-----------+
+|      1234 |        25.00 | senior      | UK3452    |
+|      1235 |        30.00 | SENIOR      | UK3452    |
+|      8970 |        90.00 | JUNIOR      | UK3452    |
+|     11001 |        24.99 | Adult       | SP4533    |
+|     11002 |        14.99 | Child       | SP4533    |
+|     11003 |        10.99 | Senior      | SP4533    |
+|     13001 |        18.99 | Child       | FR1001    |
+|     13002 |        34.99 | Adult       | FR1001    |
+|     13003 |        20.99 | Senior      | FR1001    |
+|     44621 |        65.00 | ADMIN       | UK3452    |
+|     65674 |        90.00 | ADMIN       | UK3452    |
+|     67832 |        18.56 | Child       | ZA1342    |
+|     67833 |        28.67 | Adult       | ZA1342    |
+|     67855 |        12.12 | Senior      | ZA1342    |
+|     88567 |        22.50 | Child       | UK3452    |
+|     89720 |        10.99 | Senior      | UK3452    |
++-----------+--------------+-------------+-----------+
+16 rows in set (0.00 sec)
+
+mysql> 
+mysql> UPDATE  TICKET
+    -> SET TICKET_NO = 1236
+    -> WHERE TICKET_NO = 1235;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> 
+mysql> 
+mysql> UPDATE TICKET
+    -> SET TICKET_TYPE = "OTHER"
+    -> WHERE TICKET_NO = 1234;  
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> 
+mysql> SELECT * FROM TICKET;
++-----------+--------------+-------------+-----------+
+| TICKET_NO | TICKET_PRICE | TICKET_TYPE | PARK_CODE |
++-----------+--------------+-------------+-----------+
+|      1234 |        25.00 | OTHER       | UK3452    |
+|      1236 |        30.00 | SENIOR      | UK3452    |
+|      8970 |        90.00 | JUNIOR      | UK3452    |
+|     11001 |        24.99 | Adult       | SP4533    |
+|     11002 |        14.99 | Child       | SP4533    |
+|     11003 |        10.99 | Senior      | SP4533    |
+|     13001 |        18.99 | Child       | FR1001    |
+|     13002 |        34.99 | Adult       | FR1001    |
+|     13003 |        20.99 | Senior      | FR1001    |
+|     44621 |        65.00 | ADMIN       | UK3452    |
+|     65674 |        90.00 | ADMIN       | UK3452    |
+|     67832 |        18.56 | Child       | ZA1342    |
+|     67833 |        28.67 | Adult       | ZA1342    |
+|     67855 |        12.12 | Senior      | ZA1342    |
+|     88567 |        22.50 | Child       | UK3452    |
+|     89720 |        10.99 | Senior      | UK3452    |
++-----------+--------------+-------------+-----------+
+16 rows in set (0.00 sec)
+
+mysql> select * FROM TICKET;
++-----------+--------------+-------------+-----------+
+| TICKET_NO | TICKET_PRICE | TICKET_TYPE | PARK_CODE |
++-----------+--------------+-------------+-----------+
+|      1234 |        25.00 | OTHER       | UK3452    |
+|      1236 |        30.00 | SENIOR      | UK3452    |
+|      8970 |        90.00 | JUNIOR      | UK3452    |
+|     11001 |        24.99 | Adult       | SP4533    |
+|     11002 |        14.99 | Child       | SP4533    |
+|     11003 |        10.99 | Senior      | SP4533    |
+|     13001 |        18.99 | Child       | FR1001    |
+|     13002 |        34.99 | Adult       | FR1001    |
+|     13003 |        20.99 | Senior      | FR1001    |
+|     44621 |        65.00 | ADMIN       | UK3452    |
+|     65674 |        90.00 | ADMIN       | UK3452    |
+|     67832 |        18.56 | Child       | ZA1342    |
+|     67833 |        28.67 | Adult       | ZA1342    |
+|     67855 |        12.12 | Senior      | ZA1342    |
+|     88567 |        22.50 | Child       | UK3452    |
+|     89720 |        10.99 | Senior      | UK3452    |
++-----------+--------------+-------------+-----------+
+16 rows in set (0.00 sec)
+
+mysql> 
+mysql> INSERT INTO TICKET VALUES(44621 , 65 , "ADMIN" , 'UK3452');
+ERROR 1062 (23000): Duplicate entry '44621' for key 'PRIMARY'
+mysql> INSERT INTO TICKET VALUES(65674 , 90 , 'ADMIN' , 'UK3452');
+ERROR 1062 (23000): Duplicate entry '65674' for key 'PRIMARY'
+mysql> UPDATE TICKET
+    -> SET TICKET_TYPE = "OTHER"
+    -> WHERE TICKET_NO = 88568 ; 
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> 
+mysql> SELECT * FROM TICKET;
++-----------+--------------+-------------+-----------+
+| TICKET_NO | TICKET_PRICE | TICKET_TYPE | PARK_CODE |
++-----------+--------------+-------------+-----------+
+|      1234 |        25.00 | OTHER       | UK3452    |
+|      1236 |        30.00 | SENIOR      | UK3452    |
+|      8970 |        90.00 | JUNIOR      | UK3452    |
+|     11001 |        24.99 | Adult       | SP4533    |
+|     11002 |        14.99 | Child       | SP4533    |
+|     11003 |        10.99 | Senior      | SP4533    |
+|     13001 |        18.99 | Child       | FR1001    |
+|     13002 |        34.99 | Adult       | FR1001    |
+|     13003 |        20.99 | Senior      | FR1001    |
+|     44621 |        65.00 | ADMIN       | UK3452    |
+|     65674 |        90.00 | ADMIN       | UK3452    |
+|     67832 |        18.56 | Child       | ZA1342    |
+|     67833 |        28.67 | Adult       | ZA1342    |
+|     67855 |        12.12 | Senior      | ZA1342    |
+|     88567 |        22.50 | Child       | UK3452    |
+|     89720 |        10.99 | Senior      | UK3452    |
++-----------+--------------+-------------+-----------+
+16 rows in set (0.00 sec)
+
+mysql> 
+mysql> SAVEPOINT UPDATE_TICKER01;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> ROLLBACK TO UPDATE_TICKER01;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM TICKET;
++-----------+--------------+-------------+-----------+
+| TICKET_NO | TICKET_PRICE | TICKET_TYPE | PARK_CODE |
++-----------+--------------+-------------+-----------+
+|      1234 |        25.00 | OTHER       | UK3452    |
+|      1236 |        30.00 | SENIOR      | UK3452    |
+|      8970 |        90.00 | JUNIOR      | UK3452    |
+|     11001 |        24.99 | Adult       | SP4533    |
+|     11002 |        14.99 | Child       | SP4533    |
+|     11003 |        10.99 | Senior      | SP4533    |
+|     13001 |        18.99 | Child       | FR1001    |
+|     13002 |        34.99 | Adult       | FR1001    |
+|     13003 |        20.99 | Senior      | FR1001    |
+|     44621 |        65.00 | ADMIN       | UK3452    |
+|     65674 |        90.00 | ADMIN       | UK3452    |
+|     67832 |        18.56 | Child       | ZA1342    |
+|     67833 |        28.67 | Adult       | ZA1342    |
+|     67855 |        12.12 | Senior      | ZA1342    |
+|     88567 |        22.50 | Child       | UK3452    |
+|     89720 |        10.99 | Senior      | UK3452    |
++-----------+--------------+-------------+-----------+
+16 rows in set (0.00 sec)
+
+mysql> INSERT INTO TICKET VALUES(1 , 65 , "ADMIN" , 'UK3452');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO TICKET VALUES(2 , 90 , 'ADMIN' , 'UK3452');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM TICKE;
+ERROR 1146 (42S02): Table 'themes_park.TICKE' doesn't exist
+mysql> SELECT * FROM TICKET;
++-----------+--------------+-------------+-----------+
+| TICKET_NO | TICKET_PRICE | TICKET_TYPE | PARK_CODE |
++-----------+--------------+-------------+-----------+
+|         1 |        65.00 | ADMIN       | UK3452    |
+|         2 |        90.00 | ADMIN       | UK3452    |
+|      1234 |        25.00 | OTHER       | UK3452    |
+|      1236 |        30.00 | SENIOR      | UK3452    |
+|      8970 |        90.00 | JUNIOR      | UK3452    |
+|     11001 |        24.99 | Adult       | SP4533    |
+|     11002 |        14.99 | Child       | SP4533    |
+|     11003 |        10.99 | Senior      | SP4533    |
+|     13001 |        18.99 | Child       | FR1001    |
+|     13002 |        34.99 | Adult       | FR1001    |
+|     13003 |        20.99 | Senior      | FR1001    |
+|     44621 |        65.00 | ADMIN       | UK3452    |
+|     65674 |        90.00 | ADMIN       | UK3452    |
+|     67832 |        18.56 | Child       | ZA1342    |
+|     67833 |        28.67 | Adult       | ZA1342    |
+|     67855 |        12.12 | Senior      | ZA1342    |
+|     88567 |        22.50 | Child       | UK3452    |
+|     89720 |        10.99 | Senior      | UK3452    |
++-----------+--------------+-------------+-----------+
+18 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO UPDATE_TICKER01;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM TICKET;
++-----------+--------------+-------------+-----------+
+| TICKET_NO | TICKET_PRICE | TICKET_TYPE | PARK_CODE |
++-----------+--------------+-------------+-----------+
+|      1234 |        25.00 | OTHER       | UK3452    |
+|      1236 |        30.00 | SENIOR      | UK3452    |
+|      8970 |        90.00 | JUNIOR      | UK3452    |
+|     11001 |        24.99 | Adult       | SP4533    |
+|     11002 |        14.99 | Child       | SP4533    |
+|     11003 |        10.99 | Senior      | SP4533    |
+|     13001 |        18.99 | Child       | FR1001    |
+|     13002 |        34.99 | Adult       | FR1001    |
+|     13003 |        20.99 | Senior      | FR1001    |
+|     44621 |        65.00 | ADMIN       | UK3452    |
+|     65674 |        90.00 | ADMIN       | UK3452    |
+|     67832 |        18.56 | Child       | ZA1342    |
+|     67833 |        28.67 | Adult       | ZA1342    |
+|     67855 |        12.12 | Senior      | ZA1342    |
+|     88567 |        22.50 | Child       | UK3452    |
+|     89720 |        10.99 | Senior      | UK3452    |
++-----------+--------------+-------------+-----------+
+16 rows in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> 
